@@ -471,6 +471,7 @@ class GalleryOptionsPage extends StatelessWidget {
             text: "About Flutter Gallert",
             onTap: () {},
           ),
+
           _ActionItem(text:"Send feedback",onTap: onSendFeedback,)
         ],
       ),

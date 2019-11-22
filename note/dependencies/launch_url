@@ -1,0 +1,30 @@
+url_launcher:5.1.2
+    Future<bool> launch(
+      String urlString, {
+      bool forceSafariVC,
+      bool forceWebView,
+      bool enableJavaScript,
+      bool enableDomStorage,
+      bool universalLinksOnly,
+      Map<String, String> headers,
+      Brightness statusBarBrightness,
+    })
+
+    urlString:将要跳转的url
+    forceSafariVC:
+        (ios>9)true表示要在safari中打开，如果设置成false，在默认浏览器打开
+    universalLinksOnly：
+        (ios>10)只有当forceSafariVC=false时，才验证这条，默认为false,false时，
+        在浏览器运行，true时，则只在相应已安装的程序上运行，
+        否则抛出错误（PlatformException）
+    forceWebView:
+        (android):如果null或者false,会在默认浏览器打开，如果是 true会在webview打开
+    enableJavaScript：
+        如果是true，webView支持javaScript
+    enableDomStorage:
+        如果是true,支持storage
+    headers:
+        给webView添加headers
+    statusBarBrightness
+        在iOS上设置状态栏亮度
+

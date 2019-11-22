@@ -1,0 +1,8 @@
+scoped_model: 1.0.1
+     A base class that holds some data and allows other classes to listen to
+     changes to that data.
+     In order to notify listeners that the data has changed, you must explicitly
+     call the [notifyListeners] method.
+
+     一个用于监听数据变化的基类，为了实现监听数据变化，必须调用 notifyListeners()
+     该类一般带有一个Widget,如果不需要，可以用 AnimatedBuilder 去监听数据变化
