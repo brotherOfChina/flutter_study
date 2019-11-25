@@ -103,8 +103,9 @@ final Set<GalleryDemoCategory> kAllGalleyDemoCategories =
 
 final Map<GalleryDemoCategory, List<GalleryDemo>> kGalleryCategoryToDemos =
     Map<GalleryDemoCategory, List<GalleryDemo>>.fromIterable(
-        kAllGalleyDemoCategories, value: (dynamic category) {
-  return kAllGalleryDemos
+        kAllGalleyDemoCategories,
+        value: (dynamic category) {
+       return kAllGalleryDemos
       .where((GalleryDemo demo) => demo.category == category)
       .toList();
 });
