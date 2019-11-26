@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_study/gallery/Test.dart';
 import 'package:flutter_study/gallery/icons.dart';
 
 class GalleryDemoCategory {
@@ -31,7 +32,7 @@ class GalleryDemoCategory {
 }
 
 const GalleryDemoCategory _kDemos =
-    GalleryDemoCategory._(name: "Studies", icon: GalleryIcons.animation);
+    GalleryDemoCategory._(name: "Studies", icon: Icons.home);
 
 const GalleryDemoCategory _kStyle = GalleryDemoCategory._(
   name: "style",
@@ -80,7 +81,16 @@ class GalleryDemo {
 }
 
 List<GalleryDemo> _buildGalleryDemos() {
-  final List<GalleryDemo> galleryDemos = <GalleryDemo>[];
+  final List<GalleryDemo> galleryDemos = <GalleryDemo>[
+    GalleryDemo(
+      title: 'Shrine',
+      subTitle: 'Basic shopping app',
+      icon: GalleryIcons.shrine,
+      category: _kDemos,
+      routeName: Test.routeName,
+      builderRoute: (BuildContext context) => const Test(),
+    ),
+  ];
   assert(() {
     galleryDemos.insert(
         0,
@@ -89,8 +99,8 @@ List<GalleryDemo> _buildGalleryDemos() {
             subTitle: 'Simple recipe browser',
             icon: Icons.adjust,
             category: _kDemos,
-            routeName: null,
-            builderRoute: null));
+            routeName:  Test.routeName,
+            builderRoute: (BuildContext context) => const Test()));
     return true;
   }());
   return galleryDemos;

@@ -4,12 +4,15 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_study/gallery/demos.dart';
 import 'dart:math' as math;
 
+import 'backdrop.dart';
+
 const String _kGalleryAssesPackage = "flutter_gallery_assets";
-const Color _kFltterBlue = Color(0xFF003D75);
+const Color _kFlutterBlue = Color(0xFF003D75);
 const double _kDemoItemHeight = 64.0;
 const Duration _kFrontLayerSwitchDurration = Duration(milliseconds: 300);
 
@@ -61,7 +64,7 @@ class _CategoryItem extends StatelessWidget {
               child: Icon(
                 category.icon,
                 size: 60.0,
-                color: isDark ? Colors.white : _kFltterBlue,
+                color: isDark ? Colors.white : _kFlutterBlue,
               ),
             ),
             SizedBox(
@@ -75,7 +78,7 @@ class _CategoryItem extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: theme.textTheme.subhead.copyWith(
                     fontFamily: "GoogleSans",
-                    color: isDark ? Colors.white : _kFltterBlue),
+                    color: isDark ? Colors.white : _kFlutterBlue),
               ),
             )
           ],
@@ -97,9 +100,7 @@ class _CategoriesPage extends StatelessWidget {
     const double aspectRatio = 160.0 / 180.0;
     final List<GalleryDemoCategory> categoryList = categories.toList();
     final int columnCount =
-    (MediaQuery
-        .of(context)
-        .orientation == Orientation.portrait) ? 2 : 3;
+        (MediaQuery.of(context).orientation == Orientation.portrait) ? 2 : 3;
     return Semantics(
       scopesRoute: true,
       namesRoute: true,
@@ -121,25 +122,24 @@ class _CategoriesPage extends StatelessWidget {
                 children: List<Widget>.generate(rowCount, (int rowIndex) {
                   final int columnCountForRow = rowIndex == rowCount - 1
                       ? categories.length -
-                      columnCount * math.max(0, rowCount - 1)
+                          columnCount * math.max(0, rowCount - 1)
                       : columnCount;
                   return Row(
                     children: List<Widget>.generate(columnCountForRow,
-                            (int columnIndex) {
-                          final int index = rowIndex * columnCount +
-                              columnIndex;
-                          final GalleryDemoCategory category = categoryList[index];
-                          return SizedBox(
-                            width: columnWidth,
-                            height: rowHeight,
-                            child: _CategoryItem(
-                              category: category,
-                              onTap: () {
-                                onCategoryTap(category);
-                              },
-                            ),
-                          );
-                        }),
+                        (int columnIndex) {
+                      final int index = rowIndex * columnCount + columnIndex;
+                      final GalleryDemoCategory category = categoryList[index];
+                      return SizedBox(
+                        width: columnWidth,
+                        height: rowHeight,
+                        child: _CategoryItem(
+                          category: category,
+                          onTap: () {
+                            onCategoryTap(category);
+                          },
+                        ),
+                      );
+                    }),
                   );
                 }),
               ),
@@ -195,7 +195,7 @@ class _DemoItem extends StatelessWidget {
       },
       child: Container(
         constraints:
-        BoxConstraints(minHeight: _kDemoItemHeight * textScaleFactor),
+            BoxConstraints(minHeight: _kDemoItemHeight * textScaleFactor),
         child: Row(
           children: <Widget>[
             Container(
@@ -205,15 +205,15 @@ class _DemoItem extends StatelessWidget {
               child: Icon(
                 demo.icon,
                 size: 24.0,
-                color: isDark ? Colors.white : _kFltterBlue,
+                color: isDark ? Colors.white : _kFlutterBlue,
               ),
             ),
             Expanded(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: titleChildren,
-                )),
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: titleChildren,
+            )),
             const SizedBox(
               width: 44.0,
             ),
@@ -231,10 +231,7 @@ class _DemosPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double windowBottomPadding = MediaQuery
-        .of(context)
-        .padding
-        .bottom;
+    final double windowBottomPadding = MediaQuery.of(context).padding.bottom;
 
     return KeyedSubtree(
       key: const ValueKey<String>('GalleryDemoList'),
@@ -268,29 +265,29 @@ class GalleryHome extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return null;
+    return _GalleryHomeState();
   }
 }
 
 class _GalleryHomeState extends State<GalleryHome>
     with SingleTickerProviderStateMixin {
   static final GlobalKey<ScaffoldState> _scaffoldKey =
-  GlobalKey<ScaffoldState>();
+      GlobalKey<ScaffoldState>();
   AnimationController _controller;
   GalleryDemoCategory _category;
 
-  static Widget _topHomeLayout(Widget currentChild,
-      List<Widget> previousChildren) {
+  static Widget _topHomeLayout(
+      Widget currentChild, List<Widget> previousChildren) {
     List<Widget> children = previousChildren;
     if (currentChild != null) {
-      children = children.toList()
-        ..add(currentChild);
-      return Stack(
-        children: children,
-        alignment: Alignment.topCenter,
-      );
+      children = children.toList()..add(currentChild);
+
     }
+//    return Stack(
+//      children: children,
+//      alignment: Alignment.topCenter,
+//    );
+  return Text("test");
   }
 
   static const AnimatedSwitcherLayoutBuilder _centerHomeLayout =
@@ -303,8 +300,7 @@ class _GalleryHomeState extends State<GalleryHome>
       duration: const Duration(milliseconds: 600),
       debugLabel: 'preview banner',
       vsync: this,
-    )
-      ..forward();
+    )..forward();
   }
 
   @override
@@ -320,19 +316,93 @@ class _GalleryHomeState extends State<GalleryHome>
     final MediaQueryData media = MediaQuery.of(context);
     final bool centerHome =
         media.orientation == Orientation.portrait && media.size.height < 800.0;
-    const Curve swtichOutCurVe =
-    Interval(0.4, 1.0, curve: Curves.fastOutSlowIn);
-    const Curve swtichInCurve = Interval(0.4, 1.0, curve: Curves.fastOutSlowIn);
+    const Curve switchOutCurVe =
+        Interval(0.4, 1.0, curve: Curves.fastOutSlowIn);
+    const Curve switchInCurve = Interval(0.4, 1.0, curve: Curves.fastOutSlowIn);
 
-    return Scaffold(
+    Widget home = Scaffold(
       key: _scaffoldKey,
-      backgroundColor: isDark ? _kFltterBlue : theme.primaryColor,
-      body: SafeArea(child: WillPopScope(
-        child: Backdrop(),
-
-
+      backgroundColor: isDark ? _kFlutterBlue : theme.primaryColor,
+      body: SafeArea(
+        child: WillPopScope(
+          onWillPop: () {
+            // Pop the category page if Android back button is pressed.
+            if (_category != null) {
+              setState(() {
+                _category = null;
+                return Future<bool>.value(false);
+              });
+            }
+            return Future<bool>.value(true);
+          },
+          child: Backdrop(
+            backTitle: const Text("Options"),
+            backLayer: widget.optionsPage,
+            frontAction: AnimatedSwitcher(
+              duration: _kFrontLayerSwitchDurration,
+              switchInCurve: switchInCurve,
+              switchOutCurve: switchOutCurVe,
+              child: _category == null
+                  ? const _FlutterLogo()
+                  : IconButton(
+                       icon: const BackButtonIcon(),
+                      tooltip: "back",
+                      onPressed: () => setState(() => _category = null),
+                    ),
+            ),
+            frontTitle: AnimatedSwitcher(
+              duration: _kFrontLayerSwitchDurration,
+              child: _category == null
+                  ? const Text("Flutter gallery")
+                  : Text(_category.name),
+            ),
+            frontHeading: widget.testMode ? null : Container(height: 124.0),
+            frontLayer: AnimatedSwitcher(
+              duration: _kFrontLayerSwitchDurration,
+              switchOutCurve: switchOutCurVe,
+              switchInCurve: switchInCurve,
+              layoutBuilder: centerHome ? _centerHomeLayout : _topHomeLayout,
+              child: _category != null
+                  ? _DemosPage(
+                      category: _category,
+                    )
+                  : _CategoriesPage(
+                      categories: kAllGalleyDemoCategories,
+                      onCategoryTap: (category) {
+                        setState(() {
+                          _category = category;
+                        });
+                      },
+                    ),
+            ),
+          ),
+        ),
+        bottom: false,
       ),
-        bottom: false,),
     );
+
+    assert(() {
+      GalleryHome.showPreviewBanner = false;
+      return true;
+    }());
+    if (GalleryHome.showPreviewBanner) {
+      home = Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          home,
+          FadeTransition(
+            opacity:
+                CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+            child: const Banner(
+                message: "PREVIEW", location: BannerLocation.topEnd),
+          ),
+        ],
+      );
+      home = AnnotatedRegion(
+        child: home,
+        value: SystemUiOverlayStyle.light,
+      );
+    }
+    return home;
   }
 }

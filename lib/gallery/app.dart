@@ -1,10 +1,15 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_study/gallery/home.dart';
 import 'package:flutter_study/gallery/options.dart';
 import 'package:flutter_study/gallery/scales.dart';
+import 'package:flutter_study/gallery/themes.dart';
 import 'package:flutter_study/gallery/updater.dart';
 import 'package:flutter_study/shrine/model/app_state_model.dart';
+import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'demos.dart';
 
 import 'package:flutter/foundation.dart' show defaultTargetPlatform;
@@ -17,22 +22,21 @@ class GalleryApp extends StatefulWidget {
   final bool enableRasterCacheImagesCheckerboard;
   final bool enableOffscreenLayersCheckerboard;
   final VoidCallback onSendFeedback;
-  final bool testMode;
+  final bool testMode ;
 
   const GalleryApp(
       {Key key,
       this.updateUrlFetcher,
-      this.enablePerformanceOverlay,
-      this.enableRasterCacheImagesCheckerboard,
-      this.enableOffscreenLayersCheckerboard,
+      this.enablePerformanceOverlay=true,
+      this.enableRasterCacheImagesCheckerboard=true,
+      this.enableOffscreenLayersCheckerboard=true,
       this.onSendFeedback,
-      this.testMode})
+      this.testMode=false})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return null;
+    return _GalleryAppState();
   }
 }
 
@@ -45,7 +49,7 @@ class _GalleryAppState extends State<GalleryApp> {
     return Map<String, WidgetBuilder>.fromIterable(
       kAllGalleryDemos,
       key: (dynamic demo) => "${demo.routeName}",
-      value: (dynamic demo) => demo.buildRoute,
+      value: (dynamic demo) => demo.builderRoute,
     );
   }
 
@@ -98,7 +102,53 @@ class _GalleryAppState extends State<GalleryApp> {
 
   @override
   Widget build(BuildContext context) {
-
-    return null;
+    Widget home = GalleryHome(
+      testMode: widget.testMode,
+      optionsPage: GalleryOptionsPage(
+        options: _options,
+        onOptionsChanged: _handleOptionsChanged,
+        onSendFeedback: widget.onSendFeedback ??
+            () {
+              launch('https://github.com/flutter/flutter/issues/new/choose',
+                  forceSafariVC: false);
+            },
+      ),
+    );
+    if (widget.updateUrlFetcher != null) {
+      home = Updater(
+        updateUrlFetcher: widget.updateUrlFetcher,
+        child: home,
+      );
+    }
+    return ScopedModel<AppStateModel>(
+        model: model,
+        child: MaterialApp(
+          theme: kLightGalleryTheme.copyWith(platform: _options.platform),
+          darkTheme: kDarkGalleryTheme.copyWith(platform: _options.platform),
+          themeMode: _options.themeMode,
+          title: "Flutter Gallery",
+          color: Colors.grey,
+          showPerformanceOverlay: _options.showPerformanceOverlay,
+          checkerboardOffscreenLayers: _options.showOffscreenLayersCheckerboard,
+          checkerboardRasterCacheImages:
+              _options.showRasterCacheImagesCheckerboard,
+          routes: _buildRoutes(),
+          builder: (BuildContext context, Widget child) {
+            return Directionality(
+              textDirection: _options.textDirection,
+              child: _applyTextScaleFactor(
+                Builder(builder: (context) {
+                  return CupertinoTheme(
+                    data: CupertinoThemeData(
+                      brightness: Theme.of(context).brightness,
+                    ),
+                    child: child,
+                  );
+                }),
+              ),
+            );
+          },
+          home: home,
+        ));
   }
 }
