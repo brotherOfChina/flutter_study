@@ -189,7 +189,6 @@ class _Heading extends StatelessWidget {
         ),
       ),
     );
-    return null;
   }
 }
 
@@ -213,16 +212,17 @@ class _ThemeModeItem extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Expanded(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const Text("Theme"),
-              Text(
-                "${modeLabels[options.themeMode]}",
-                style: Theme.of(context).primaryTextTheme.body1,
-              ),
-            ],
-          )),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const Text("Theme"),
+                Text(
+                  "${modeLabels[options.themeMode]}",
+                  style: Theme.of(context).primaryTextTheme.body1,
+                ),
+              ],
+            ),
+          ),
           PopupMenuButton<ThemeMode>(
             padding: EdgeInsetsDirectional.only(end: 16.0),
             icon: Icon(Icons.arrow_drop_down),
@@ -323,7 +323,9 @@ class _TimeDilationItem extends StatelessWidget {
       "Slow motion",
       options.timeDilation != 1.0,
       (bool value) {
-        options.copyWith(timeDilation: value ? 20.0 : 1.0);
+        onOptionChanged(
+          options.copyWith(timeDilation: value ? 20.0 : 1.0),
+        );
       },
       switchKey: Key("slow_motion"),
     );
@@ -354,18 +356,19 @@ class _PlatformItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return _OptionsItem(
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Expanded(
-              child: Column(
-            children: <Widget>[
-              Text("Platform mechanics"),
-              Text(
-                "${_platformLabel(options.platform)}",
-                style: Theme.of(context).primaryTextTheme.body1,
-              ),
-            ],
-          )),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text("Platform mechanics"),
+                Text(
+                  "${_platformLabel(options.platform)}",
+                  style: Theme.of(context).primaryTextTheme.body1,
+                ),
+              ],
+            ),
+          ),
           PopupMenuButton(
             padding: EdgeInsetsDirectional.only(end: 16.0),
             icon: Icon(Icons.arrow_drop_down),
@@ -384,7 +387,6 @@ class _PlatformItem extends StatelessWidget {
         ],
       ),
     );
-    return null;
   }
 }
 
@@ -416,7 +418,7 @@ class GalleryOptionsPage extends StatelessWidget {
       }));
     }
     if (options.showRasterCacheImagesCheckerboard != null) {
-      items.add(_BooleanItem("Highlight offscreen layers",
+      items.add(_BooleanItem("Highlight raster cache images",
           options.showRasterCacheImagesCheckerboard, (bool value) {
         onOptionsChanged(
             options.copyWith(showRasterCacheImagesCheckerboard: value));
@@ -424,7 +426,7 @@ class GalleryOptionsPage extends StatelessWidget {
     }
     if (options.showPerformanceOverlay != null) {
       items.add(_BooleanItem(
-          "Highlight offscreen layers", options.showPerformanceOverlay,
+          "Show performance overlay", options.showPerformanceOverlay,
           (bool value) {
         onOptionsChanged(options.copyWith(showPerformanceOverlay: value));
       }));
@@ -471,8 +473,10 @@ class GalleryOptionsPage extends StatelessWidget {
             text: "About Flutter Gallert",
             onTap: () {},
           ),
-
-          _ActionItem(text:"Send feedback",onTap: onSendFeedback,)
+          _ActionItem(
+            text: "Send feedback",
+            onTap: onSendFeedback,
+          )
         ],
       ),
     );

@@ -12,7 +12,7 @@ final Animatable<BorderRadius> _kFrontHeadingBeveRadius = BorderRadiusTween(
       topRight: Radius.circular(12.0),
     ),
     end: const BorderRadius.only(
-        topLeft: Radius.circular(_kFrontClosedHeight),
+        topLeft: Radius.circular(_kFrontHeadingHeight),
         topRight: Radius.circular(_kFrontHeadingHeight)));
 
 class _TapAbleWhileStatusIs extends StatefulWidget {
@@ -26,7 +26,6 @@ class _TapAbleWhileStatusIs extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _TapAbleWhileStatusIsState();
   }
 }

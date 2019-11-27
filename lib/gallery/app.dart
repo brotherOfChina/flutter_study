@@ -149,6 +149,7 @@ class _GalleryAppState extends State<GalleryApp> {
             );
           },
           home: home,
-        ));
+        )
+    );
   }
 }

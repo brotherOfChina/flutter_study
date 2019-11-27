@@ -14,7 +14,7 @@ import 'backdrop.dart';
 const String _kGalleryAssesPackage = "flutter_gallery_assets";
 const Color _kFlutterBlue = Color(0xFF003D75);
 const double _kDemoItemHeight = 64.0;
-const Duration _kFrontLayerSwitchDurration = Duration(milliseconds: 300);
+const Duration _kFrontLayerSwitchDuration = Duration(milliseconds: 300);
 
 class _FlutterLogo extends StatelessWidget {
   const _FlutterLogo({Key key}) : super(key: key);
@@ -283,11 +283,10 @@ class _GalleryHomeState extends State<GalleryHome>
       children = children.toList()..add(currentChild);
 
     }
-//    return Stack(
-//      children: children,
-//      alignment: Alignment.topCenter,
-//    );
-  return Text("test");
+    return Stack(
+      children: children,
+      alignment: Alignment.topCenter,
+    );
   }
 
   static const AnimatedSwitcherLayoutBuilder _centerHomeLayout =
@@ -339,7 +338,7 @@ class _GalleryHomeState extends State<GalleryHome>
             backTitle: const Text("Options"),
             backLayer: widget.optionsPage,
             frontAction: AnimatedSwitcher(
-              duration: _kFrontLayerSwitchDurration,
+              duration: _kFrontLayerSwitchDuration,
               switchInCurve: switchInCurve,
               switchOutCurve: switchOutCurVe,
               child: _category == null
@@ -351,14 +350,14 @@ class _GalleryHomeState extends State<GalleryHome>
                     ),
             ),
             frontTitle: AnimatedSwitcher(
-              duration: _kFrontLayerSwitchDurration,
+              duration: _kFrontLayerSwitchDuration,
               child: _category == null
                   ? const Text("Flutter gallery")
                   : Text(_category.name),
             ),
-            frontHeading: widget.testMode ? null : Container(height: 124.0),
+            frontHeading: widget.testMode ? null : Container(height: 24.0),
             frontLayer: AnimatedSwitcher(
-              duration: _kFrontLayerSwitchDurration,
+              duration: _kFrontLayerSwitchDuration,
               switchOutCurve: switchOutCurVe,
               switchInCurve: switchInCurve,
               layoutBuilder: centerHome ? _centerHomeLayout : _topHomeLayout,
