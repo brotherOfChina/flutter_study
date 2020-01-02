@@ -99,6 +99,9 @@ class _CategoriesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     const double aspectRatio = 160.0 / 180.0;
     final List<GalleryDemoCategory> categoryList = categories.toList();
+    /**
+     * columnCount 竖屏2 横屏3
+     */
     final int columnCount =
         (MediaQuery.of(context).orientation == Orientation.portrait) ? 2 : 3;
     return Semantics(
@@ -110,9 +113,14 @@ class _CategoriesPage extends StatelessWidget {
         key: const PageStorageKey<String>("categories"),
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
+            /**
+             * columnWidth 每个item宽度
+             */
             final double columnWidth =
                 constraints.biggest.width / columnCount.toDouble();
+            //根据宽度求出高度
             final double rowHeight = math.min(225.0, columnWidth * aspectRatio);
+            //求出有几列
             final int rowCount =
                 (categories.length + columnCount * 1) ~/ columnCount;
             return RepaintBoundary(
@@ -120,6 +128,7 @@ class _CategoriesPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: List<Widget>.generate(rowCount, (int rowIndex) {
+                  //求出某列的数量
                   final int columnCountForRow = rowIndex == rowCount - 1
                       ? categories.length -
                           columnCount * math.max(0, rowCount - 1)

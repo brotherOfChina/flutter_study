@@ -15,7 +15,7 @@ class Updater extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return null;
+    return UpdaterState();
   }
 }
 
@@ -42,14 +42,14 @@ class UpdaterState extends State<Updater> {
     final String updateUrl = await widget.updateUrlFetcher();
     if (updateUrl != null) {
       final bool wantsUpdate =
-          await showDialog(context: context, builder: _buildDiialog);
+          await showDialog(context: context, builder: _buildDialog);
       if (wantsUpdate != null && wantsUpdate) {
         launch(updateUrl);
       }
     }
   }
 
-  Widget _buildDiialog(BuildContext context) {
+  Widget _buildDialog(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final TextStyle dialogTextStyle =
         theme.textTheme.subhead.copyWith(color: theme.textTheme.caption.color);

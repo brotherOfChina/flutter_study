@@ -90,6 +90,12 @@ List<GalleryDemo> _buildGalleryDemos() {
       routeName: Test.routeName,
       builderRoute: (BuildContext context) => const Test(),
     ),
+    GalleryDemo(
+        title: "fotyinightly",
+        icon: GalleryIcons.custom_typography,
+        category: _kDemos,
+        routeName: null,
+        builderRoute: null)
   ];
   assert(() {
     galleryDemos.insert(
@@ -99,7 +105,7 @@ List<GalleryDemo> _buildGalleryDemos() {
             subTitle: 'Simple recipe browser',
             icon: Icons.adjust,
             category: _kDemos,
-            routeName:  Test.routeName,
+            routeName: Test.routeName,
             builderRoute: (BuildContext context) => const Test()));
     return true;
   }());
@@ -113,16 +119,15 @@ final Set<GalleryDemoCategory> kAllGalleyDemoCategories =
 
 final Map<GalleryDemoCategory, List<GalleryDemo>> kGalleryCategoryToDemos =
     Map<GalleryDemoCategory, List<GalleryDemo>>.fromIterable(
-        kAllGalleyDemoCategories,
-        value: (dynamic category) {
-       return kAllGalleryDemos
+        kAllGalleyDemoCategories, value: (dynamic category) {
+  return kAllGalleryDemos
       .where((GalleryDemo demo) => demo.category == category)
       .toList();
 });
 
-final Map<String,String> kDemoDocumentationUrl=
-    Map<String,String>.fromIterable(
-      kAllGalleryDemos.where((GalleryDemo demo)=>demo.documentationUrl!=null),
-      key: (dynamic demo)=>demo.routeName,
-      value: (dynamic demo)=>demo.documentationUrl,
-    );
+final Map<String, String> kDemoDocumentationUrl =
+    Map<String, String>.fromIterable(
+  kAllGalleryDemos.where((GalleryDemo demo) => demo.documentationUrl != null),
+  key: (dynamic demo) => demo.routeName,
+  value: (dynamic demo) => demo.documentationUrl,
+);

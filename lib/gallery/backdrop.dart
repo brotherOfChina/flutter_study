@@ -6,7 +6,7 @@ const double _kFrontHeadingHeight = 32.0;
 const double _kFrontClosedHeight = 92.0;
 const double _kBackAppBarHeight = 56.0;
 
-final Animatable<BorderRadius> _kFrontHeadingBeveRadius = BorderRadiusTween(
+final Animatable<BorderRadius> _kFrontHeadingBevelRadius = BorderRadiusTween(
     begin: const BorderRadius.only(
       topLeft: Radius.circular(12.0),
       topRight: Radius.circular(12.0),
@@ -282,7 +282,7 @@ class _BackdropState extends State<Backdrop>
               clipper: ShapeBorderClipper(
                   shape: BeveledRectangleBorder(
                 borderRadius:
-                    _kFrontHeadingBeveRadius.transform(_controller.value),
+                _kFrontHeadingBevelRadius.transform(_controller.value),
               )),
               color: Theme.of(context).canvasColor,
               clipBehavior: Clip.antiAlias,
